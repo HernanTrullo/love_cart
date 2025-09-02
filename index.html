@@ -2,41 +2,295 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <title>Para mi amada</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <title>Para mi amada</title>
+
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Sacramento");
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: "Sacramento", cursive;
+      background: radial-gradient(circle at top left, #ffd1dc, #f8e1f4, #fff0f6);
+      overflow: hidden;
+      margin: 0;
+    }
+
+    .valentines-day {
+      position: relative;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .envelope {
+      position: relative;
+      filter: drop-shadow(0 0 25px rgba(0, 0, 0, 0.3));
+    }
+
+    .envelope:before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background-color: #ff9494;
+      transform: rotate(-45deg);
+      border-radius: 0 15px 0 0;
+      left: -25px;
+      top: -60px;
+    }
+
+    .envelope:after {
+      content: "";
+      position: absolute;
+      background-color: #ff9494;
+      width: 260px;
+      height: 160px;
+      left: -65px;
+      top: 30px;
+    }
+
+    .heart {
+      position: relative;
+      background-color: #e01911;
+      display: inline-block;
+      height: 130px;
+      top: 35px;
+      left: 0;
+      transform: rotate(-45deg);
+      width: 130px;
+      filter: drop-shadow(0 -10px 25px rgba(0, 0, 0, 0.3));
+      transition: 0.5s;
+    }
+
+    .heart:before,
+    .heart:after {
+      content: "";
+      background-color: #e01911;
+      border-radius: 50%;
+      height: 130px;
+      width: 130px;
+      position: absolute;
+    }
+
+    .heart:before {
+      top: -75px;
+      left: 0;
+    }
+
+    .heart:after {
+      left: 75px;
+      top: 0;
+    }
+
+    .front {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-right: 140px solid #fbd2d2;
+      border-top: 83px solid transparent;
+      border-bottom: 83px solid transparent;
+      top: 30px;
+      left: 60px;
+      z-index: 4;
+    }
+
+    .front:before {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 140px solid #fbd2d2;
+      border-top: 83px solid transparent;
+      border-bottom: 83px solid transparent;
+      top: -83px;
+      left: -125px;
+    }
+
+    .front:after {
+      width: 0;
+      height: 0;
+      position: absolute;
+      content: "";
+      border-bottom: 110px solid #fce7e9;
+      border-right: 130px solid transparent;
+      border-left: 130px solid transparent;
+      top: -26px;
+      left: -125px;
+    }
+
+    .text {
+      position: absolute;
+      font-family: arial;
+      font-size: 0.9em;
+      letter-spacing: 2px;
+      text-align: center;
+      color: white;
+      z-index: 2;
+      top: 50px;
+      left: 5px;
+      transition: 0.5s;
+    }
+
+    .valentines-day:hover .heart {
+      transform: translateY(-30px) rotate(-45deg);
+    }
+
+    .valentines-day:hover .text {
+      transform: translateY(-30px);
+    }
+
+    /* ======== CARRUSEL ======== */
+    #carousel-container {
+      display: none;
+      width: 95%;
+      max-width: 700px;
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      padding: 15px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .carousel-wrapper {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 15px;
+    }
+
+    .carousel {
+      display: flex;
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .carousel img {
+      width: 100%;
+      flex-shrink: 0;
+      border-radius: 15px;
+      object-fit: cover;
+    }
+
+    .carousel-controls {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .carousel-controls button {
+      background: pink;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .carousel-controls button:hover {
+      background: #ff7eb9;
+      color: white;
+    }
+
+    h2 {
+      color: #ff4d6d;
+      margin: 10px 0;
+      font-size: 1.5em;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      h2 {
+        font-size: 1.2em;
+      }
+
+      .carousel-controls button {
+        font-size: 0.9em;
+        padding: 6px 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 1em;
+      }
+
+      .carousel-controls {
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .carousel-controls button {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <div class="valentines-day">
-        <div class="envelope"></div>
-        <div class="heart"></div>
-        <div class="text"> DIA 10</div>
-        <div class="front"></div>
-    </div>
+  <div class="valentines-day">
+    <div class="envelope"></div>
+    <div class="heart"></div>
+    <div class="text">Ábreme 💌</div>
+    <div class="front"></div>
+  </div>
 
-    <div id="card">
-        <div class="side one">
-            <i class="fas fa-heart"></i>
-        </div>
-        <div class="side two">
-            <h2>🌷🌷🌷</h2>
-            <p>Amor bonito</p>
-            <p>
-                Padre nuestro que estás en el cielo, santificado sea tu nombre, venga a nosotros tu reino, hágase tu voluntad
-                aquí en la tierra como en el cielo, danos hoy el pan de cada día, perdona nuestras ofensas así como 
-                nosotros también perdonamos a los que nos ofenden y no nos dejes caer en tentatición y libranos del mal.
-                <br>
-                Hoy 19 de agosto te amo mas que a nadie.
-            </p>
-        </div>
+  <!-- CARRUSEL -->
+  <div id="carousel-container">
+    <h2>🌸 Para mi persona más especial, <br> quiero recordarte lo hermosa que eres🌸</h2>
+    <div class="carousel-wrapper">
+      <div class="carousel" id="carousel">
+        <img src="Princesa.jpg" alt="Foto especial">
+        <img src="Princesa1.jpg" alt="Flores">
+        <img src="Princesa2.jpg" alt="Flores">
+        <img src="Princesa3.jpg" alt="Flores">
+      </div>
     </div>
+    <div class="carousel-controls">
+      <button onclick="prevSlide()">⬅️</button>
+      <button onclick="nextSlide()">➡️</button>
+    </div>
+  </div>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    <script src="assets/js/main.js"></script>
+  <script>
+    // Mostrar carrusel al abrir
+    document.querySelector(".valentines-day").addEventListener("click", () => {
+      document.querySelector(".valentines-day").style.display = "none";
+      document.getElementById("carousel-container").style.display = "block";
+    });
+
+    let index = 0;
+    const carousel = document.getElementById("carousel");
+    const totalSlides = carousel.children.length;
+
+    function showSlide() {
+      carousel.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    function nextSlide() {
+      index = (index + 1) % totalSlides;
+      showSlide();
+    }
+
+    function prevSlide() {
+      index = (index - 1 + totalSlides) % totalSlides;
+      showSlide();
+    }
+
+    // Pase automático cada 5 segundos
+    setInterval(nextSlide, 5000);
+  </script>
 </body>
 
 </html>
